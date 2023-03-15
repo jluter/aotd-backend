@@ -7,7 +7,14 @@ const axios = require('axios');
 require("dotenv").config()
 
 const PORT = process.env.PORT || 5050;
-const welcome = `Welcome to ${PORT}`;
+const welcome = `Welcome to ${PORT}!!!!!!!`;
+
+app.use(express.json());
+app.use(cors());
+
+// app.get("/", (req, res) => {
+//     res.send(welcome);
+// });
 
 const clientId = process.env.client_id;
 const clientSecret = process.env.client_secret;
@@ -33,23 +40,44 @@ const config = {
 axios.post(authEndpointUrl, data, config)
   .then(response => {
     console.log(response.data.access_token);
+    testFunction(response.data.access_token);
   })
   .catch(error => {
     console.error(error);
 });
 
 
+//test run of the app
+const testFunction = (responseData) => {
+
+    const test = {
+        Authorization: `Bearer ${responseData}`
+    };
+
+    const options = {
+        url: 'https://api.spotify.com/v1/albums/3CHcldbsbrBOOlw8cnLpNm',
+        headers: test
+    };
+
+    axios.get(options.url, { headers: options.headers })
+        .then(response => {
+            console.log(response.data.images)
+            const images = response.data.images;
+            const jsonData = JSON.parse(JSON.stringify(images));
+            return jsonData;
+        })
+        .then(jsonData => {
+            app.get("/", (req, res) => {
+                res.send(jsonData)
+            }) 
+        })
+        .catch(error => {
+            console.log(error)
+        });
+}
 
 
 
-
-
-app.use(express.json());
-app.use(cors());
-
-app.get("/", (req, res) => {
-    res.send(welcome);
-});
 
 app.listen(PORT, function() {
     console.log(`🚨 Server ${PORT} Started`)
