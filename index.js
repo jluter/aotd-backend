@@ -3,7 +3,9 @@ const app = express();
 const cors = require("cors");
 const fs = require("fs");
 const axios = require('axios');
-require("dotenv").config()
+require("dotenv").config();
+
+const getArtist = require('./routes/getArtist');
 
 const PORT = process.env.PORT || 5050;
 
@@ -46,10 +48,18 @@ axios.post(authEndpointUrl, data, config)
     console.error(error);
 });
 
+app.get("/", (req, res) => {
+  res.send('welcome');
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+});
 
 
 
 
+app.use("/aotd", getArtist);
 
 app.listen(PORT, function() {
     console.log(`🚨 Server ${PORT} Started`)
