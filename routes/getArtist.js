@@ -23,6 +23,7 @@ router.get("/", (req, res) => {
 })
 
 
+
 const searchQuery = 'angel olson'; // artist name to search for
 
 // axios.get(`https://api.spotify.com/v1/search?q=${searchQuery}&type=artist`, {
