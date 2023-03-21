@@ -19,6 +19,8 @@ router.post("/", (req, res) => {
         artistName: req.body.artistName
     };
 
+    console.log(nameObject)
+
     fs.writeFileSync('./data/artistName.json', JSON.stringify(nameObject));
 
     res.status(200).json(nameObject);
