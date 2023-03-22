@@ -15,9 +15,23 @@ console.log(artistNameParsed)
 
 const searchQuery = artistNameParsed.artistName;
 
+//grabs first four artist results from the spotify api artist search
+const handleArtistData = (data) => {
+  if (typeof data !== 'object') {
+    return;
+  }
+  const artistArray = data.slice(0,4);
+
+  //mapping artists to return only the values needed
+  const mappedArtists = artistArray.map((artist) => {
+    return artist.images;
+  })
+
+  console.log(mappedArtists);
+  return artistArray;
+}
+
 router.get("/", (req, res) => {
-  console.log(req.body);
-  console.log(res.status, "test");
 
   axios.get(`https://api.spotify.com/v1/search?q=${searchQuery}&type=artist`, {
     headers: {
@@ -25,8 +39,11 @@ router.get("/", (req, res) => {
     }
   })
   .then(response => {
-    console.log(response.data.artists.items);
-    res.status(200).send(response.data.artists.items);
+
+    //writes data to artistResults.json
+    fs.writeFileSync('./data/artistResults.json', JSON.stringify(response.data.artists.items));
+    const selectedArtists = handleArtistData(response.data.artists.items);
+    res.status(200).send(selectedArtists);
   })
   .catch(error => {
     console.log(error);
