@@ -10,26 +10,28 @@ app.use(cors());
 app.use(express.json());
 
 
-const artistNameParsed = JSON.parse(fs.readFileSync('./data/artistName.json')); // artist name to search for
-console.log(artistNameParsed)
-
-const searchQuery = artistNameParsed.artistName;
 
 //grabs first four artist results from the spotify api artist search
 const handleArtistData = (data) => {
   if (typeof data !== 'object') {
     return;
   }
-  const artistArray = data.slice(0,4);
-
+  
   //mapping artists to return only the values needed
-  const mappedArtists = artistArray.map((artist) => {
-    return artist.images;
+  const mappedArtists = data.map((artist) => {
+    const nameAndIdOfArtists = {
+      id: artist.id,
+      name: artist.name
+    };
+    return nameAndIdOfArtists;
   })
-
+  
   console.log(mappedArtists);
-  return artistArray;
+  return mappedArtists;
 }
+
+const artistNameParsed = JSON.parse(fs.readFileSync('./data/artistName.json')); // artist name to search for
+const searchQuery = artistNameParsed.artistName;
 
 router.get("/", (req, res) => {
 

@@ -35,7 +35,6 @@ const config = {
 // Make the POST request to the Spotify API to get an authorization token
 axios.post(authEndpointUrl, data, config)
   .then(response => {
-    console.log(response.data.access_token);
 
     require('dotenv').config();
     process.env.ACCESS_TOKEN = response.data.access_token;
