@@ -19,14 +19,23 @@ const handleArtistData = (data) => {
   
   //mapping artists to return only the values needed
   const mappedArtists = data.map((artist) => {
+
+    //extract artist image if one exists
+    let imageUrl = '';
+    if (artist.images.length) {
+      imageUrl = artist.images[0].url
+    }
+
     const nameAndIdOfArtists = {
       id: artist.id,
-      name: artist.name
+      name: artist.name,
+      image: imageUrl
     };
+
+    //return from map function
     return nameAndIdOfArtists;
   })
   
-  console.log(mappedArtists);
   return mappedArtists;
 }
 
