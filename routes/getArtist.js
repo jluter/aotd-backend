@@ -31,7 +31,7 @@ const handleArtistData = (data) => {
       name: artist.name,
       image: imageUrl
     };
-
+    
     //return from map function
     return nameAndIdOfArtists;
   })
