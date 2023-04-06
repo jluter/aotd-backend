@@ -36,6 +36,7 @@ router.post("/", (req, res) => {
       },
     })
     .then((response) => {
+        //include writing albums to a data file here
       console.log(response.data);
     })
     .catch((error) => {
