@@ -23,6 +23,33 @@ app.use(express.json());
 //   // })
 // };
 
+
+const handleAlbumData = (data) => {
+  if (typeof data !== 'object') {
+    return;
+  }
+
+  const mappedAlbums = data.map((album) => {
+    let imageUrl = '';
+    if (album.images.length) {
+      imageUrl = album.images[0].url;
+    };
+
+    const albumData = {
+      id: album.id,
+      name: album.name,
+      image: imageUrl,
+      artists: album.artists
+    }
+
+    //Map function return
+    return albumData;
+  })
+
+  //handleAlbumData return
+  return mappedAlbums;
+}
+
 router.post("/", (req, res) => {
   if (!req.body.artistId) {
     return res.status(400).send("Error retrieving artist by ID");
@@ -36,15 +63,20 @@ router.post("/", (req, res) => {
       },
     })
     .then((response) => {
-        //include writing albums to a data file here
-      console.log(response.data);
+
+        //writes data to artistAlbums.json
+        fs.writeFileSync('./data/artistAlbums.json', JSON.stringify(response.data.items));
+
+        //Takes spotify API data and extracts only data we need
+        const albums = handleAlbumData(response.data.items);
+
+        res.status(200).send(albums);
     })
     .catch((error) => {
       console.log(error);
     });
-  console.log("ID!!!", req.body.artistId);
 //   getAlbumsById(req.body.artistId);
-  res.send("TESTING");
+  // res.send("TESTING");
 });
   
 module.exports = router
