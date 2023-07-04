@@ -8,6 +8,7 @@ require("dotenv").config();
 const getArtist = require('./routes/getArtist');
 const postArtist = require('./routes/postArtist');
 const getAlbum = require('./routes/getAlbum');
+const patchAlbums = require('./routes/patchAlbums');
 
 const PORT = process.env.PORT || 5050;
 
@@ -63,6 +64,7 @@ app.get("/", (req, res) => {
 app.use("/aotd", getArtist);
 app.use("/aotd", postArtist);
 app.use("/aotd/albums", getAlbum);
+app.use("/aotd/addAlbum", patchAlbums);
 
 app.listen(PORT, function() {
     console.log(`🚨 Server ${PORT} Started`)
