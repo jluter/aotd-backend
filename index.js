@@ -9,6 +9,7 @@ const getArtist = require('./routes/getArtist');
 const postArtist = require('./routes/postArtist');
 const getAlbum = require('./routes/getAlbum');
 const patchAlbums = require('./routes/patchAlbums');
+const getAlbumList = require('./routes/getAlbumList');
 
 const PORT = process.env.PORT || 5050;
 
@@ -65,6 +66,7 @@ app.use("/aotd", getArtist);
 app.use("/aotd", postArtist);
 app.use("/aotd/albums", getAlbum);
 app.use("/aotd/addAlbum", patchAlbums);
+app.use("/aotd/getAlbumList", getAlbumList);
 
 app.listen(PORT, function() {
     console.log(`🚨 Server ${PORT} Started`)

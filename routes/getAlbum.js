@@ -9,20 +9,6 @@ const axios = require('axios');
 app.use(cors());
 app.use(express.json());
 
-// const getAlbumsById = (idParam) => {
-//   // axios.get(`https://api.spotify.com/v1/albums/`, {
-//   //     headers: {
-//   //         'Authorization': 'Bearer ' + process.env.ACCESS_TOKEN
-//   //       }
-//   // })
-//   // .then(response => {
-//   //     console.log(response.data);
-//   // })
-//   // .catch(error => {
-//   //     console.log(error.message);
-//   // })
-// };
-
 
 const handleAlbumData = (data) => {
   if (typeof data !== 'object') {
