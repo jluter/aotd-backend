@@ -18,9 +18,9 @@ router.patch("/", (req, res) => {
 
     //Take existing albums of the day from albumsOfTheDay.json and update them
     const existingAlbumsJSON = fs.readFileSync('./data/albumsOfTheDay.json', 'utf-8');
-    const existingAlbums = JSON.parse(existingAlbumsJSON);
+    const existingAlbums = existingAlbumsJSON ? JSON.parse(existingAlbumsJSON) : [];
     //TODO: Possibly add a check to see if an album already exists?
-    existingAlbums.push(req.body);
+    existingAlbums.push(req.body.album);
     const updatedAlbums = JSON.stringify(existingAlbums);
     fs.writeFileSync('./data/albumsOfTheDay.json', updatedAlbums);
 
