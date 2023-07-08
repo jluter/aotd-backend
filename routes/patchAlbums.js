@@ -11,7 +11,7 @@ app.use(express.json());
 
 router.patch("/", (req, res) => {
     if (
-        !req.body.album
+        !req.body.album || !req.body.time
       ) {
         return res.status(400).send("Not all necessary data was included.");
     }
@@ -19,7 +19,8 @@ router.patch("/", (req, res) => {
     //Take existing albums of the day from albumsOfTheDay.json and update them
     const existingAlbumsJSON = fs.readFileSync('./data/albumsOfTheDay.json', 'utf-8');
     const existingAlbums = existingAlbumsJSON ? JSON.parse(existingAlbumsJSON) : [];
-    //TODO: Possibly add a check to see if an album already exists?
+    //TODO: Add a unique uuid to the album body, as it will be needed for a key when mapping the album on the frontend. 
+    req.body.album.time = req.body.time;
     existingAlbums.push(req.body.album);
     const updatedAlbums = JSON.stringify(existingAlbums);
     fs.writeFileSync('./data/albumsOfTheDay.json', updatedAlbums);
