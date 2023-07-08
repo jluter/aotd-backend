@@ -4,6 +4,7 @@ const fs = require('fs')
 const app = express();
 const cors = require("cors");
 const axios = require('axios');
+const { v4: uuidv4 } = require('uuid');
 
 
 app.use(cors());
@@ -21,6 +22,7 @@ router.patch("/", (req, res) => {
     const existingAlbums = existingAlbumsJSON ? JSON.parse(existingAlbumsJSON) : [];
     //TODO: Add a unique uuid to the album body, as it will be needed for a key when mapping the album on the frontend. 
     req.body.album.time = req.body.time;
+    req.body.album.uuid = uuidv4();
     existingAlbums.push(req.body.album);
     const updatedAlbums = JSON.stringify(existingAlbums);
     fs.writeFileSync('./data/albumsOfTheDay.json', updatedAlbums);
